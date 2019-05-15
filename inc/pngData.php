@@ -109,7 +109,6 @@
             $thumbnail_witdh = $ini_array["thumbnail_".$type."_witdh"];
             $thumbnail_height = $ini_array["thumbnail_".$type."_height"];
             if(!self::CreateThumbnail($fileName_png, $fileName_thumbnail, $thumbnail_witdh, $thumbnail_height)) {
-                echo "CreateThumbnail false <br />";
                 return FALSE;
             }
 
