@@ -15,7 +15,7 @@ I社 情感工坊上传下载服务器
 设置到合理的允许上传文件的大小。<br />
 <br />
 以及 max_execution_time、max_input_time。<br />
-设置一下接受上传、下载的最大时间，以免上传或下载失败。<br />
+设置一下接受上传、下载的最大时间，以免上传或下载失败。<br /><br />
 正式架设时，需要把 data/config.ini 的 close_error_report 设置成 1, 避免返回奇怪的东西。
 <br />
 <br/>
