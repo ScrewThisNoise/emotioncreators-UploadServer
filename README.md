@@ -35,6 +35,7 @@ version 是游戏的版本。<br />
 里面的 .dat 就是连接地址，不过都经过加密。<br /><br />
 
 以下是加密代码。<br /><br />
+加解密工具，已经在论坛的帖子里放出，以下是加解密的 C# 代码<br />
 
 加密 EncryptAES(bytes, "eromake", "phpaddress")<br />
 解密 DecryptAES(bytes, "eromake", "phpaddress");<br />
