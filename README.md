@@ -2,7 +2,7 @@
 I company emotion workshop upload and download server
 
 <br />
-<h1> Description </ h1>
+<h1> Description </h1>
 I tried to do this because the server of the original game blocked the domestic IP. <br />
 The function of these codes is to serve the emotioncreators of Illusion as an alternative upload and download server. <br />
 These codes have not been tested, so there may be bugs. <br />
@@ -10,7 +10,7 @@ I am also new to PHP, and I wrote this while doing Google, so it may not be able
 <br />
 <br />
 <br />
-<h1> Use note </ h1>
+<h1> Use note </h1>
 If you want to use it, please set upload_max_filesize, post_max_size, memory_limit in php.ini. <br />
 Set to a reasonable size that allows uploading files. <br />
 <br />
