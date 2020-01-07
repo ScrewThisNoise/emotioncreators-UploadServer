@@ -30,7 +30,7 @@ version is the version of the game. <br />
 <br />
 <br />
 
-<h1> About modifying game connections </ h1>
+<h1> About modifying game connections </h1>
 Game connection address, in emotioncreators / DefaultData / url <br />
 The .dat inside is the connection address, but all are encrypted. <br /> <br />
 
