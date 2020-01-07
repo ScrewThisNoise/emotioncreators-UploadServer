@@ -1,77 +1,77 @@
 # emotioncreators-upload-server
-I社 情感工坊上传下载服务器
+I company emotion workshop upload and download server
 
 <br />
-<h1>说明</h1>
-因为原本游戏的服务器封国内IP，我尝试着做了这个。<br />
-这些代码的功能是给 Illusion 社的 emotioncreators 当一个替代用的上传下载服务器。<br />
-这些代码并没有经过测试，所以可能存在BUG<br />
-我本人对PHP也是新手，做这个东西也是一边谷歌一边写的，所以不一定能提供代码上的帮助。
+<h1> Description </ h1>
+I tried to do this because the server of the original game blocked the domestic IP. <br />
+The function of these codes is to serve the emotioncreators of Illusion as an alternative upload and download server. <br />
+These codes have not been tested, so there may be bugs. <br />
+I am also new to PHP, and I wrote this while doing Google, so it may not be able to provide code help.
 <br />
 <br />
 <br />
-<h1>使用注意</h1>
-如果你要使用，请注意设置 php.ini 中的 upload_max_filesize、post_max_size、memory_limit。<br />
-设置到合理的允许上传文件的大小。<br />
+<h1> Use note </ h1>
+If you want to use it, please set upload_max_filesize, post_max_size, memory_limit in php.ini. <br />
+Set to a reasonable size that allows uploading files. <br />
 <br />
-以及 max_execution_time、max_input_time。<br />
-设置一下接受上传、下载的最大时间，以免上传或下载失败。<br /><br />
-正式架设时，需要把 data/config.ini 的 close_error_report 设置成 1, 避免返回奇怪的东西。
+And max_execution_time, max_input_time. <br />
+Set a maximum time for accepting uploads and downloads to avoid upload or download failure. <br /> <br />
+When it is officially set up, you need to set the close_error_report of data / config.ini to 1, to avoid returning strange things.
 <br />
 <br/>
-mysql 的 sql 文件在 sql 文件夹里面。<br />
-data/config.ini 可以修改 mysql 的连接配置。<br /><br />
+The mysql sql file is in the sql folder. <br />
+data / config.ini can modify the mysql connection configuration. <br /> <br />
 
-config.ini 中 thumbnail 开头的是缩略图大小。<br />
-image_base64 是将图片以 base64 编码储存。<br />
-close_error_report 是关闭 php 自带报错，如果开启，可能导致游戏实际使用时出错，建议只在调试时使用。<br />
-version 是游戏的版本。<br />
+The thumbnail in config.ini starts with the thumbnail size. <br />
+image_base64 stores the image in base64 encoding. <br />
+close_error_report is to close php's built-in error. If it is turned on, it may cause errors during actual use of the game. <br />
+version is the version of the game. <br />
 <br />
 <br />
 <br />
 
-<h1>关于修改游戏连接</h1>
-游戏连接地址，在 emotioncreators/DefaultData/url 里面<br />
-里面的 .dat 就是连接地址，不过都经过加密。<br /><br />
+<h1> About modifying game connections </ h1>
+Game connection address, in emotioncreators / DefaultData / url <br />
+The .dat inside is the connection address, but all are encrypted. <br /> <br />
 
-以下是加密代码。<br /><br />
-加解密工具，已经在论坛的帖子里放出，以下是加解密的 C# 代码<br />
+Here is the encryption code. <br /> <br />
+The encryption and decryption tool has been released in the forum post. The following is the C # code for encryption and decryption. <br />
 
-加密 EncryptAES(bytes, "eromake", "phpaddress")<br />
-解密 DecryptAES(bytes, "eromake", "phpaddress");<br />
+EncryptAES (bytes, "eromake", "phpaddress") <br />
+DecryptAES (bytes, "eromake", "phpaddress"); <br />
 
 <pre>
 <code>
-public static byte[] EncryptAES(byte[] srcData, string pw = "illusion", string salt = "unityunity")
+public static byte [] EncryptAES (byte [] srcData, string pw = "illusion", string salt = "unityunity")
 {
-	RijndaelManaged rijndaelManaged = new RijndaelManaged();
-	rijndaelManaged.KeySize = 128;
-	rijndaelManaged.BlockSize = 128;
-	byte[] bytes = Encoding.UTF8.GetBytes(salt);
-	Rfc2898DeriveBytes rfc2898DeriveBytes = new Rfc2898DeriveBytes(pw, bytes);
-	rfc2898DeriveBytes.IterationCount = 1000;
-	rijndaelManaged.Key = rfc2898DeriveBytes.GetBytes(rijndaelManaged.KeySize / 8);
-	rijndaelManaged.IV = rfc2898DeriveBytes.GetBytes(rijndaelManaged.BlockSize / 8);
-	ICryptoTransform cryptoTransform = rijndaelManaged.CreateEncryptor();
-	byte[] result = cryptoTransform.TransformFinalBlock(srcData, 0, srcData.Length);
-	cryptoTransform.Dispose();
-	return result;
+RijndaelManaged rijndaelManaged = new RijndaelManaged ();
+rijndaelManaged.KeySize = 128;
+rijndaelManaged.BlockSize = 128;
+byte [] bytes = Encoding.UTF8.GetBytes (salt);
+Rfc2898DeriveBytes rfc2898DeriveBytes = new Rfc2898DeriveBytes (pw, bytes);
+rfc2898DeriveBytes.IterationCount = 1000;
+rijndaelManaged.Key = rfc2898DeriveBytes.GetBytes (rijndaelManaged.KeySize / 8);
+rijndaelManaged.IV = rfc2898DeriveBytes.GetBytes (rijndaelManaged.BlockSize / 8);
+ICryptoTransform cryptoTransform = rijndaelManaged.CreateEncryptor ();
+byte [] result = cryptoTransform.TransformFinalBlock (srcData, 0, srcData.Length);
+cryptoTransform.Dispose ();
+return result;
 }
 
-public static byte[] DecryptAES(byte[] srcData, string pw = "illusion", string salt = "unityunity")
+public static byte [] DecryptAES (byte [] srcData, string pw = "illusion", string salt = "unityunity")
 {
-	RijndaelManaged rijndaelManaged = new RijndaelManaged();
-	rijndaelManaged.KeySize = 128;
-	rijndaelManaged.BlockSize = 128;
-	byte[] bytes = Encoding.UTF8.GetBytes(salt);
-	Rfc2898DeriveBytes rfc2898DeriveBytes = new Rfc2898DeriveBytes(pw, bytes);
-	rfc2898DeriveBytes.IterationCount = 1000;
-	rijndaelManaged.Key = rfc2898DeriveBytes.GetBytes(rijndaelManaged.KeySize / 8);
-	rijndaelManaged.IV = rfc2898DeriveBytes.GetBytes(rijndaelManaged.BlockSize / 8);
-	ICryptoTransform cryptoTransform = rijndaelManaged.CreateDecryptor();
-	byte[] result = cryptoTransform.TransformFinalBlock(srcData, 0, srcData.Length);
-	cryptoTransform.Dispose();
-	return result;
+RijndaelManaged rijndaelManaged = new RijndaelManaged ();
+rijndaelManaged.KeySize = 128;
+rijndaelManaged.BlockSize = 128;
+byte [] bytes = Encoding.UTF8.GetBytes (salt);
+Rfc2898DeriveBytes rfc2898DeriveBytes = new Rfc2898DeriveBytes (pw, bytes);
+rfc2898DeriveBytes.IterationCount = 1000;
+rijndaelManaged.Key = rfc2898DeriveBytes.GetBytes (rijndaelManaged.KeySize / 8);
+rijndaelManaged.IV = rfc2898DeriveBytes.GetBytes (rijndaelManaged.BlockSize / 8);
+ICryptoTransform cryptoTransform = rijndaelManaged.CreateDecryptor ();
+byte [] result = cryptoTransform.TransformFinalBlock (srcData, 0, srcData.Length);
+cryptoTransform.Dispose ();
+return result;
 }
-</code>
-</pre>
+</ code>
+</ pre>
